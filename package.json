@@ -1,0 +1,22 @@
+{
+  "name": "redux-async-flows",
+  "version": "1.0.0-beta.0",
+  "description": "Redux simple middleware to build async flows.",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ssaucedo/redux-async-for-flows"
+  },
+  "keywords": [
+    "redux",
+    "middleware",
+    "effects",
+    "async",
+    "flows"
+  ],
+  "author": "ssaucedo",
+  "license": "ISC"
+}
