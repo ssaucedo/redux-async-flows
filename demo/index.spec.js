@@ -3,69 +3,82 @@ import testFlow from "./flows";
 import reducer from "./reducers";
 import {
   userInteractions as user,
-  uiUpdates as ui,
   selectFlight,
   creditCardPayment,
   otherMethodsPayment,
-  cancelBooking
+  displayFlightDetails,
+  bookingSuccess,
+  showPaymentMethods
 } from "./actions";
 
 import createAsyncForFlowsMiddleware from "../src/index";
-
-
-const step = (take, dispatch) => async (interactionType, userInteraction) => {
-  const prom = take(interactionType); // take interaction
-  dispatch(userInteraction()); // user interacts
-  await prom; // wait for take resolution
-}
+import { step } from "../src/test-utils";
 
 describe("enhanced store", () => {
-  it("should work well", async () => {
+  let dispatch = null;
+  let getState = null;
+  let takeStep = null;
+  let spiedTake = null;
+  let spiedDispatch = null;
+
+  beforeEach(() => {
     const {
-      take,
+      take: takeFn,
       middleware: asyncMiddleware
     } = createAsyncForFlowsMiddleware();
 
-    const { dispatch, getState } = createStore(
-      reducer,
-      applyMiddleware(asyncMiddleware)
-    );
+    const store = createStore(reducer, applyMiddleware(asyncMiddleware));
 
-    const takeStep = step(take, dispatch);
+    dispatch = store.dispatch;
+    getState = store.getState;
+    takeStep = step(takeFn, dispatch);
+    spiedTake = jest.fn(takeFn);
+    spiedDispatch = jest.fn(dispatch);
+  });
 
-    const spiedTake = jest.fn(take);
-    const spiedDispatch = jest.fn(dispatch);
-    const flowPromise = testFlow(spiedTake, getState, spiedDispatch)();
+  describe("payment cases", () => {
+    it("should support credit card", async () => {
+      const flowPromise = testFlow(spiedTake, getState, spiedDispatch)();
 
-    await takeStep(user.USER_SELECTS_FLIGHT, selectFlight);
-    
-    expect(spiedTake.mock.calls[0][0]).toEqual(
-      user.USER_SELECTS_FLIGHT
-    );
+      await takeStep(user.USER_SELECTS_FLIGHT, selectFlight, { payload: { flight: {} }});
 
-    expect(spiedDispatch.mock.calls[0][0]).toEqual({
-      type: ui.DISPLAY_FLIGHT_DETAILS
+      expect(spiedTake.mock.calls[0][0]).toEqual(user.USER_SELECTS_FLIGHT);
+
+      expect(spiedDispatch.mock.calls[0][0]).toEqual(displayFlightDetails({ payload: { flight: {} }}));
+
+      expect(spiedTake.mock.calls[1][0]).toEqual(user.CREDIT_CARD_PAYMENT);
+
+      expect(spiedTake.mock.calls[2][0]).toEqual(user.OTHER_METHOD_PAYMENT);
+
+      await takeStep(user.CREDIT_CARD_PAYMENT, creditCardPayment);
+
+      await flowPromise;
+
+      expect(spiedDispatch.mock.calls[1][0]).toEqual(showPaymentMethods({ method: "credit card" }));
+
+      expect(spiedDispatch.mock.calls[2][0]).toEqual(bookingSuccess());
     });
 
-    expect(spiedTake.mock.calls[1][0]).toEqual(
-      user.CREDIT_CARD_PAYMENT
-    );
+    it("should support other methods", async () => {
+      const flowPromise = testFlow(spiedTake, getState, spiedDispatch)();
 
-    expect(spiedTake.mock.calls[2][0]).toEqual(
-      user.OTHER_METHOD_PAYMENT
-    );
+      await takeStep(user.USER_SELECTS_FLIGHT, selectFlight, { payload: { flight: {} }});
 
-    await takeStep(user.CREDIT_CARD_PAYMENT, creditCardPayment);
+      expect(spiedTake.mock.calls[0][0]).toEqual(user.USER_SELECTS_FLIGHT);
 
-    await flowPromise;
+      expect(spiedDispatch.mock.calls[0][0]).toEqual(displayFlightDetails({ payload: { flight: {} }}));
 
-    expect(spiedDispatch.mock.calls[1][0]).toEqual({
-      type: ui.SHOW_PAYMENT_METHODS,
-      payload: { method: "credit card" }
-    });
+      expect(spiedTake.mock.calls[1][0]).toEqual(user.CREDIT_CARD_PAYMENT);
 
-    expect(spiedDispatch.mock.calls[2][0]).toEqual({
-      type: ui.BOOKING_SUCCESS
+      expect(spiedTake.mock.calls[2][0]).toEqual(user.OTHER_METHOD_PAYMENT);
+
+      await takeStep(user.OTHER_METHOD_PAYMENT, otherMethodsPayment);
+
+      await flowPromise;
+
+      expect(spiedDispatch.mock.calls[1][0]).toEqual(showPaymentMethods({ method: "other methods" }));
+
+      expect(spiedDispatch.mock.calls[2][0]).toEqual(bookingSuccess());
     });
   });
 });

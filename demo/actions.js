@@ -9,6 +9,21 @@ export const uiUpdates = {
   BOOKING_SUCCESS,
 };
 
+export const displayFlightDetails = payload => ({
+  type: uiUpdates.DISPLAY_FLIGHT_DETAILS,
+  payload
+});
+
+export const showPaymentMethods = payload => ({
+  type: uiUpdates.SHOW_PAYMENT_METHODS,
+  payload
+});
+
+export const bookingSuccess = payload => ({
+  type: uiUpdates.BOOKING_SUCCESS,
+  payload
+});
+
 // USER INTERACTIONS
 
 export const USER_SELECTS_FLIGHT = "USER_SELECTS_FLIGHT";
@@ -24,18 +39,18 @@ export const userInteractions = {
 };
 
 export const selectFlight = payload => ({
-  type: USER_SELECTS_FLIGHT,
+  type: userInteractions.USER_SELECTS_FLIGHT,
   payload
 });
 
 export const creditCardPayment = () => ({
-  type: CREDIT_CARD_PAYMENT,
+  type: userInteractions.CREDIT_CARD_PAYMENT,
 });
 
 export const otherMethodsPayment = () => ({
-  type: OTHER_METHOD_PAYMENT,
+  type: userInteractions.OTHER_METHOD_PAYMENT,
 });
 
 export const cancelBooking = () => ({
-  type: BOOKING_CANCELLATION,
+  type: userInteractions.BOOKING_CANCELLATION,
 });
