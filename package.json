@@ -1,32 +1,37 @@
 {
   "name": "redux-async-flows",
-  "version": "1.0.0-beta.0",
+  "version": "1.0.0",
   "description": "Redux simple middleware to build async flows.",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
+    "build": "babel src -d lib",
     "test": "jest"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/ssaucedo/redux-async-for-flows"
   },
+  "files": [
+    "lib"
+  ],
   "keywords": [
     "redux",
-    "middleware",
+    "reducer",
+    "state",
+    "predictable",
     "effects",
     "async",
     "flows"
   ],
-  "author": "ssaucedo",
+  "author": "Santiago Saucedo <santiago.g.saucedo@gmail.com>",
   "license": "ISC",
   "devDependencies": {
     "babel-core": "^6.26.3",
     "babel-jest": "^23.6.0",
     "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
     "jest": "^23.6.0",
     "redux": "^4.0.1"
   },
-  "dependencies": {
-    "babel-preset-env": "^1.7.0"
-  }
+  "dependencies": {}
 }
