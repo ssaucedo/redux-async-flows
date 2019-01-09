@@ -4,7 +4,7 @@
   "description": "Redux simple middleware to build async flows.",
   "main": "index.js",
   "scripts": {
-    "test": "test"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -18,5 +18,15 @@
     "flows"
   ],
   "author": "ssaucedo",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-jest": "^23.6.0",
+    "babel-polyfill": "^6.26.0",
+    "jest": "^23.6.0",
+    "redux": "^4.0.1"
+  },
+  "dependencies": {
+    "babel-preset-env": "^1.7.0"
+  }
 }
