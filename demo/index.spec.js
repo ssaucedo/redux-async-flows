@@ -1,6 +1,5 @@
 import { createStore, applyMiddleware } from "redux";
-import testFlow from "./flows";
-import reducer from "./reducers";
+import testFlow from ".";
 import {
   userInteractions as user,
   selectFlight,
@@ -11,7 +10,7 @@ import {
   showPaymentMethods
 } from "./actions";
 
-import createAsyncForFlowsMiddleware from "../src/index";
+import createAsyncFlowsMiddleware from "../src/index";
 import { step } from "../src/test-utils";
 
 describe("enhanced store", () => {
@@ -24,10 +23,12 @@ describe("enhanced store", () => {
   beforeEach(() => {
     const {
       take: takeFn,
-      middleware: asyncMiddleware
-    } = createAsyncForFlowsMiddleware();
+      asyncFlowsMiddleware, 
+    } = createAsyncFlowsMiddleware();
 
-    const store = createStore(reducer, applyMiddleware(asyncMiddleware));
+    const dummyReducer =  () => {};
+
+    const store = createStore(dummyReducer, {}, applyMiddleware(asyncFlowsMiddleware));
 
     dispatch = store.dispatch;
     getState = store.getState;

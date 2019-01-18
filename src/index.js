@@ -21,7 +21,7 @@ function createAsyncFlowsMiddleware() {
   };
 };
 
-export default createAsyncForFlowsMiddleware;
+export default createAsyncFlowsMiddleware;
 
 
 

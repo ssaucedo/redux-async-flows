@@ -1,6 +1,3 @@
 {
   "presets": ["env"],
-  "ignore": [
-    "**/*.spec.js"
-  ]
 }
