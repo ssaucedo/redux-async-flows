@@ -4,7 +4,7 @@
   "description": "Redux simple middleware to build async flows.",
   "main": "lib/index.js",
   "scripts": {
-    "build": "babel src -d lib",
+    "build": "tsc",
     "test": "jest"
   },
   "repository": {
@@ -31,7 +31,8 @@
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.7.0",
     "jest": "^23.6.0",
-    "redux": "^4.0.1"
+    "redux": "^4.0.1",
+    "typescript": "^3.2.4"
   },
   "dependencies": {}
 }
