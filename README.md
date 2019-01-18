@@ -1,7 +1,7 @@
 # Async Flows Middleware
 
 Async Flows allows to enhance thunks with `take` functionality, which is no more than the
-ability to wait for redux actions when using `async await`. With this you can pause function execution when waiting for an user interaction (or any redux action in your system).
+ability to wait for redux actions when using `async await`. With this you can pause function execution waiting for an user interaction (or any redux action in your system).
 
 In spite the middleware is useful by itself for an easy adoption the recomendation is to combine it with redux-thunks.
 
