@@ -1,4 +1,4 @@
-function createAsyncForFlowsMiddleware() {
+function createAsyncFlowsMiddleware() {
   
   const register = {};
 
@@ -10,7 +10,7 @@ function createAsyncForFlowsMiddleware() {
 
   return {
     take,
-    middleware: () => next => action => {
+    asyncFlowsMiddleware: () => next => action => {
 
       if(register[action.type]) {
         register[action.type].forEach(resolve => resolve(action));
