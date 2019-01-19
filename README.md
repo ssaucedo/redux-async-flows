@@ -55,12 +55,12 @@ await take('USER_SELECTS_FLIGHT');
 ## Wait for any action
 
 ```.js
-await take.any(CREDIT_CARD_PAYMENT, OTHER_METHOD_PAYMENT);
+await take.any('CREDIT_CARD_PAYMENT', 'OTHER_METHOD_PAYMENT');
 ```
 
 ## Wait for multiple actions
 
 ```.js
-await take.all(CAPTCHA_CONFIRMATION, SMS_CONFIRMATION);
+await take.all('CAPTCHA_CONFIRMATION', 'SMS_CONFIRMATION');
 ```
 
