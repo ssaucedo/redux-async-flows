@@ -6,6 +6,8 @@ import {
   creditCardPayment,
   otherMethodsPayment,
   displayFlightDetails,
+  captchaConfirmation,
+  smsConfirmation,
   bookingSuccess,
   showPaymentMethods
 } from "./actions";
@@ -34,12 +36,14 @@ describe("enhanced store", () => {
     getState = store.getState;
     takeStep = step(takeFn, dispatch);
     spiedTake = jest.fn(takeFn);
+    spiedTake.any = jest.fn(takeFn.any)
+    spiedTake.all = jest.fn(takeFn.all)
     spiedDispatch = jest.fn(dispatch);
   });
 
   describe("payment cases", () => {
     it("should support credit card", async () => {
-      const flowPromise = testFlow(spiedTake, getState, spiedDispatch)();
+      const flowPromise = testFlow(spiedDispatch, getState, spiedTake)();
 
       await takeStep(user.USER_SELECTS_FLIGHT, selectFlight, { payload: { flight: {} }});
 
@@ -47,11 +51,14 @@ describe("enhanced store", () => {
 
       expect(spiedDispatch.mock.calls[0][0]).toEqual(displayFlightDetails({ payload: { flight: {} }}));
 
-      expect(spiedTake.mock.calls[1][0]).toEqual(user.CREDIT_CARD_PAYMENT);
-
-      expect(spiedTake.mock.calls[2][0]).toEqual(user.OTHER_METHOD_PAYMENT);
+      expect(spiedTake.any.mock.calls[0]).toEqual([user.CREDIT_CARD_PAYMENT, user.OTHER_METHOD_PAYMENT]);
 
       await takeStep(user.CREDIT_CARD_PAYMENT, creditCardPayment);
+
+      expect(spiedTake.all.mock.calls[0]).toEqual([user.CAPTCHA_CONFIRMATION, user.SMS_CONFIRMATION]);      
+
+      await takeStep(user.CAPTCHA_CONFIRMATION, captchaConfirmation);
+      await takeStep(user.SMS_CONFIRMATION, smsConfirmation)
 
       await flowPromise;
 
@@ -61,7 +68,7 @@ describe("enhanced store", () => {
     });
 
     it("should support other methods", async () => {
-      const flowPromise = testFlow(spiedTake, getState, spiedDispatch)();
+      const flowPromise = testFlow(spiedDispatch, getState, spiedTake)();
 
       await takeStep(user.USER_SELECTS_FLIGHT, selectFlight, { payload: { flight: {} }});
 
@@ -69,11 +76,14 @@ describe("enhanced store", () => {
 
       expect(spiedDispatch.mock.calls[0][0]).toEqual(displayFlightDetails({ payload: { flight: {} }}));
 
-      expect(spiedTake.mock.calls[1][0]).toEqual(user.CREDIT_CARD_PAYMENT);
-
-      expect(spiedTake.mock.calls[2][0]).toEqual(user.OTHER_METHOD_PAYMENT);
+      expect(spiedTake.any.mock.calls[0]).toEqual([user.CREDIT_CARD_PAYMENT, user.OTHER_METHOD_PAYMENT]);
 
       await takeStep(user.OTHER_METHOD_PAYMENT, otherMethodsPayment);
+
+      expect(spiedTake.all.mock.calls[0]).toEqual([user.CAPTCHA_CONFIRMATION, user.SMS_CONFIRMATION]);      
+
+      await takeStep(user.CAPTCHA_CONFIRMATION, captchaConfirmation);
+      await takeStep(user.SMS_CONFIRMATION, smsConfirmation)
 
       await flowPromise;
 

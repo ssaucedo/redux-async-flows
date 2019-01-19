@@ -8,6 +8,10 @@ function createAsyncFlowsMiddleware() {
     });
   };
 
+  take.any = (...actions) => Promise.race(actions.map(take));
+  
+  take.all = (...actions) => Promise.all(actions.map(take))
+
   return {
     take,
     asyncFlowsMiddleware: () => next => action => {

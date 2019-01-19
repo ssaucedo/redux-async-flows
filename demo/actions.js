@@ -30,12 +30,16 @@ export const USER_SELECTS_FLIGHT = "USER_SELECTS_FLIGHT";
 export const CREDIT_CARD_PAYMENT = "CREDIT_CARD_PAYMENT";
 export const OTHER_METHOD_PAYMENT = "OTHER_METHOD_PAYMENT";
 export const BOOKING_CANCELLATION = "BOOKING_CANCELLATION";
+export const CAPTCHA_CONFIRMATION = "CAPTCHA_CONFIRMATION";
+export const SMS_CONFIRMATION = "SMS_CONFIRMATION";
 
 export const userInteractions = {
   USER_SELECTS_FLIGHT,
   CREDIT_CARD_PAYMENT,
   OTHER_METHOD_PAYMENT,
   BOOKING_CANCELLATION,
+  CAPTCHA_CONFIRMATION,
+  SMS_CONFIRMATION
 };
 
 export const selectFlight = payload => ({
@@ -53,4 +57,12 @@ export const otherMethodsPayment = () => ({
 
 export const cancelBooking = () => ({
   type: userInteractions.BOOKING_CANCELLATION,
+});
+
+export const captchaConfirmation = () => ({
+  type: userInteractions.CAPTCHA_CONFIRMATION,
+});
+
+export const smsConfirmation = () => ({
+  type: userInteractions.SMS_CONFIRMATION,
 });
