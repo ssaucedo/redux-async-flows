@@ -12,7 +12,7 @@ import {
   showPaymentMethods
 } from "./actions";
 
-import createAsyncFlowsMiddleware from "../src/index";
+import createAsyncFlowsMiddleware from "../lib/index";
 import { step } from "../src/test-utils";
 
 describe("enhanced store", () => {
