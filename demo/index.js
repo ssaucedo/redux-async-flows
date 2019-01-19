@@ -1,15 +1,14 @@
 import bookingService from "./service";
 import { userInteractions as user, displayFlightDetails, bookingSuccess, showPaymentMethods } from "./actions";
 
-const testFlow = (take, getState, dispatch) =>
+const testFlow = (dispatch, getState, take) =>
   async function basicFlow() {
     const { payload: flight } = await take(user.USER_SELECTS_FLIGHT);
     dispatch(displayFlightDetails(flight));
 
-    const { type: paymentType } = await Promise.race([
-      take(user.CREDIT_CARD_PAYMENT),
-      take(user.OTHER_METHOD_PAYMENT)
-    ]);
+    const { type: paymentType } = await take.any(
+      user.CREDIT_CARD_PAYMENT, user.OTHER_METHOD_PAYMENT
+    );
     
     if (paymentType === user.CREDIT_CARD_PAYMENT) {
       dispatch(showPaymentMethods({ method: "credit card" }))
@@ -19,7 +18,9 @@ const testFlow = (take, getState, dispatch) =>
       dispatch(showPaymentMethods({ method: "other methods" }))
     }
 
-    const { res } = await bookingService(paymentType);
+    await take.all(user.CAPTCHA_CONFIRMATION, user.SMS_CONFIRMATION);
+
+    await bookingService(paymentType);
     dispatch(bookingSuccess());
   };
 
