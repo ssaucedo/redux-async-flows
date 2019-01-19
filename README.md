@@ -10,7 +10,7 @@ In spite the middleware is useful by itself for an easy adoption the recomendati
 ``` .js
 import createAsyncFlowsMiddleware from 'redux-async-flows';
 import thunk from 'redux-thunk';
-import { applyMiddleware } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 
 const {
     take,
