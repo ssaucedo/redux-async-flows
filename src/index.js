@@ -1,36 +1,44 @@
-function createAsyncFlowsMiddleware() {
+import React from "react";
+import ReactDOM from "react-dom";
 
-  const register = {};
+import createAsyncFlowsMiddleware from "redux-async-flows";
+import thunk from "redux-thunk";
+import { createStore, applyMiddleware } from "redux";
+import { Provider } from "react-redux";
+import reducer from "./reducer";
 
-  const take = (actionType) => {
-    if (typeof actionType === 'string') {
-      return new Promise(resolve => {
-        register[actionType] = [...(register[actionType] || []), resolve];
-      });
-    }
-    return Promise.reject(new Error(`Cannot take an ${typeof actionType}, string expected`))
-  };
+import UserFlow from "./UserFlow";
+import FlowRepresantation from "./tree";
 
-  take.any = (...actionTypes) => {
-    return Promise.race(actionTypes.map(take))
-  };
+import "./styles.css";
 
-  take.all = (...actionTypes) => Promise.all(actionTypes.map(take))
+function App() {
+  const { take, asyncFlowsMiddleware } = createAsyncFlowsMiddleware();
 
-  return {
-    take,
-    asyncFlowsMiddleware: () => next => action => {
+  const store = createStore(
+    reducer,
+    applyMiddleware(asyncFlowsMiddleware, thunk.withExtraArgument(take))
+  );
 
-      if (register[action.type]) {
-        register[action.type].forEach(resolve => resolve(action));
-        register[action.type] = [];
-      }
-      return next(action);
-    }
-  };
-};
-
-export default createAsyncFlowsMiddleware;
-
-
-
+  return (
+    <Provider store={store}>
+      <div className="App">
+        <a href={"https://codesandbox.io/s/5x2p6j4n6n"}>
+          {"Go to code sandbox"}
+        </a>
+        <div style={{ display: "flex" }}>
+          <div style={{ flex: "1" }}>
+            <UserFlow />
+          </div>
+        </div>
+      </div>
+    </Provider>
+  );
+}
+/**
+ <div style={{ flex: "1" }}>
+            <FlowRepresantation style={{ flex: "1" }} />
+          </div>
+ */
+const rootElement = document.getElementById("root");
+ReactDOM.render(<App />, rootElement);
