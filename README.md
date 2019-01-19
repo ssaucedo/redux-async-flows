@@ -46,20 +46,21 @@ const userFlow = () => async function(dispatch, getState, take) {
 
 ```
 
-## Wait for action
+## Wait for an action
 
 ```.js
-await take('USER_INTERACTION');
+await take('USER_SELECTS_FLIGHT');
 ```
 
-## Or
+## Wait for any action
 
 ```.js
-await Promise.race([take("ACTION_A"), take("ACTION_B")]);
+await take.any(CREDIT_CARD_PAYMENT, OTHER_METHOD_PAYMENT);
 ```
 
-## And
+## Wait for multiple actions
 
 ```.js
-await Promise.all([take("ACTION_A"), take("ACTION_B")]);
+await take.all(CAPTCHA_CONFIRMATION, SMS_CONFIRMATION);
 ```
+
