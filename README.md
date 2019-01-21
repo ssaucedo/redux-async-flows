@@ -1,32 +1,52 @@
 # Async Flows Middleware
 
-Async Flows allows to enhance thunks with `take` functionality, which is no more than the
-ability to wait for redux actions when using `async await`. With this you can pause function execution when waiting for an user interaction (or any redux action in your system).
+Enhance `async await` thunks with `take` functionality and allow them to wait for redux actions.
 
-In spite the middleware is useful by itself for an easy adoption the recomendation is to combine it with redux-thunks.
+Pause function execution waiting for user interactions to compose centralized `user flows`.
+
+## How
+
+[![Async Flows demo app](https://codesandbox.io/static/img/play-codesandbox.svg)](https://14x7xwv034.codesandbox.io/)
+
+## The existing problem
+
+With a thunk approach to handle side effects user flows ends up being composed by multiple thunks and that separation happens when an user interaction needs to take place to continue user flow execution.
+
+Having the power to wait for an interaction we can unify those thunks to compose a single async function.
+
+With thunks the dispatching order is not obvious. To discover existing `user flows` in sourcecode devs need to review the existing thunks, then go to presentational layer files and check which UI component is dispathing each thunk. With the repetition of the process they end up with `user flows` mental model.
+
+## Install
+
+```bash
+    npm install redux-async-flows
+```
 
 ## Setup
 
 ``` .js
 import createAsyncFlowsMiddleware from 'redux-async-flows';
 import thunk from 'redux-thunk';
-import { applyMiddleware } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 
 const {
     take,
     asyncFlowsMiddleware,
 } = createAsyncFlowsMiddleware();
 
-const store = createStore(() => {}, {}, applyMiddleware(asyncFlowsMiddleware, thunk.withExtraArgument(take)));
+const store =
+    createStore(() => {}, {}, applyMiddleware(asyncFlowsMiddleware, thunk.withExtraArgument(take)));
 
 ```
 
 ## Async Flow
 
+Instead of having a `user flow` definitions spread on different files and layers, `redux-async-flows` allows to express a complete user flow with `async await` functions.
+
 ``` .js
 
 const userFlow = () => async function(dispatch, getState, take) {
-    dispatch({ type: 'USER_STARTS_FLOW'});    // UI update
+    dispatch({ type: 'USER_STARTS_FLOW'});
     const res = await asyncService();         // Service call
     dispatch({ type: 'DISPLAY_RESULT'});      // UI update
 
@@ -46,19 +66,21 @@ const userFlow = () => async function(dispatch, getState, take) {
 
 ```
 
-## Wait for an action
+## Utils
+
+### Wait for an action
 
 ```.js
 await take('USER_SELECTS_FLIGHT');
 ```
 
-## Wait for any action
+### Wait for any action
 
 ```.js
 await take.any('CREDIT_CARD_PAYMENT', 'OTHER_METHOD_PAYMENT');
 ```
 
-## Wait for multiple actions
+### Wait for multiple actions
 
 ```.js
 await take.all('CAPTCHA_CONFIRMATION', 'SMS_CONFIRMATION');
