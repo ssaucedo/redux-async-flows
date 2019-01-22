@@ -5,7 +5,7 @@ import ConfirmationModal from "./components/Modal.jsx";
 import TemporaryDrawer from "./components/Drawer";
 import { connect } from "react-redux";
 import { userInteractions } from "./actions";
-import { userFlow } from "./flow";
+import { userFlow } from "./flows";
 
 const UserFlow = props => {
   console.log(props);

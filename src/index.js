@@ -7,10 +7,9 @@ import { createStore, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
 import reducer from "./reducer";
 
-import UserFlow from "./UserFlow";
-import FlowRepresantation from "./tree";
+import Presentational from "./presentational";
 
-import "./styles.css";
+const codeSandboxURL = "https://codesandbox.io/s/5x2p6j4n6n";
 
 function App() {
   const { take, asyncFlowsMiddleware } = createAsyncFlowsMiddleware();
@@ -22,23 +21,18 @@ function App() {
 
   return (
     <Provider store={store}>
-      <div className="App">
-        <a href={"https://codesandbox.io/s/5x2p6j4n6n"}>
+      <div style={{fontFamily: 'sans-serif', textAlign: 'center'}}>
+        <a href={codeSandboxURL}>
           {"Go to code sandbox"}
         </a>
         <div style={{ display: "flex" }}>
           <div style={{ flex: "1" }}>
-            <UserFlow />
+            <Presentational />
           </div>
         </div>
       </div>
     </Provider>
   );
 }
-/**
- <div style={{ flex: "1" }}>
-            <FlowRepresantation style={{ flex: "1" }} />
-          </div>
- */
 const rootElement = document.getElementById("root");
 ReactDOM.render(<App />, rootElement);

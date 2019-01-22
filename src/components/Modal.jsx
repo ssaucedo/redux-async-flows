@@ -72,7 +72,6 @@ SimpleModal.propTypes = {
   confirmation: PropTypes.func
 };
 
-// We need an intermediary variable for handling the recursive nesting.
 const SimpleModalWrapped = withStyles(styles)(SimpleModal);
 
 export default SimpleModalWrapped;

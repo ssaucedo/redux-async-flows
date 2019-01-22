@@ -1,3 +1,30 @@
+// USER INTERACTIONS
+
+export const START_FLOW = "START_FLOW";
+export const SELECT_CATEGORY = "SELECT_CATEGORY";
+export const SELECT_OPTION = "SELECT_OPTION";
+export const CONFIRMATION = "CONFIRMATION";
+
+export const startFlow = () => ({ type: START_FLOW });
+export const selectCategory = () => ({ type: SELECT_CATEGORY });
+export const selectOption = () => ({ type: SELECT_OPTION });
+export const confirmation = () => ({ type: CONFIRMATION });
+
+export const userInteractionTypes = {
+  START_FLOW,
+  SELECT_CATEGORY,
+  SELECT_OPTION,
+  CONFIRMATION
+};
+
+export const userInteractions = {
+  startFlow,
+  selectCategory,
+  selectOption,
+  confirmation
+};
+
+
 // UI ACTIONS
 
 export const OPEN_MODAL = "OPEN_MODAL";
@@ -30,30 +57,4 @@ export const uiActionTypes = {
   CLOSE_SIDEBAR,
   SHOW_CATEGORIES,
   RESET_STATE
-};
-
-// USER INTERACTIONS
-
-export const START_FLOW = "START_FLOW";
-export const SELECT_CATEGORY = "SELECT_CATEGORY";
-export const SELECT_OPTION = "SELECT_OPTION";
-export const CONFIRMATION = "CONFIRMATION";
-
-export const startFlow = () => ({ type: START_FLOW });
-export const selectCategory = () => ({ type: SELECT_CATEGORY });
-export const selectOption = () => ({ type: SELECT_OPTION });
-export const confirmation = () => ({ type: CONFIRMATION });
-
-export const userInteractionTypes = {
-  START_FLOW,
-  SELECT_CATEGORY,
-  SELECT_OPTION,
-  CONFIRMATION
-};
-
-export const userInteractions = {
-  startFlow,
-  selectCategory,
-  selectOption,
-  confirmation
 };

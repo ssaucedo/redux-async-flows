@@ -28,7 +28,6 @@ const TemporaryDrawer = props => {
   );
 
   return (
-    <div>
       <Drawer anchor="right" open={open} onClose={() => console.log("close")}>
         <div
           tabIndex={0}
@@ -39,7 +38,6 @@ const TemporaryDrawer = props => {
           {sideList}
         </div>
       </Drawer>
-    </div>
   );
 };
 
