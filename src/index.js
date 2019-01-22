@@ -3,30 +3,32 @@ import ReactDOM from "react-dom";
 
 import createAsyncFlowsMiddleware from "redux-async-flows";
 import thunk from "redux-thunk";
-import { createStore, applyMiddleware } from "redux";
+import { createStore, applyMiddleware, compose } from "redux";
 import { Provider } from "react-redux";
 import reducer from "./reducer";
 
 import Presentational from "./presentational";
-
-const codeSandboxURL = "https://codesandbox.io/s/5x2p6j4n6n";
+import Source from './components/Source';
 
 function App() {
   const { take, asyncFlowsMiddleware } = createAsyncFlowsMiddleware();
 
+  const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+
   const store = createStore(
     reducer,
-    applyMiddleware(asyncFlowsMiddleware, thunk.withExtraArgument(take))
+    composeEnhancers(applyMiddleware(asyncFlowsMiddleware, thunk.withExtraArgument(take)))
   );
 
   return (
     <Provider store={store}>
-      <div style={{fontFamily: 'sans-serif', textAlign: 'center'}}>
-        <a href={codeSandboxURL}>
-          {"Go to code sandbox"}
-        </a>
-        <div style={{ display: "flex" }}>
-          <div style={{ flex: "1" }}>
+      <div style={{fontFamily: 'sans-serif', textAlign: 'center' }}>
+        <div style={{ display: "flex", height: '100%' }}>
+        <div style={{ flex: "2" }}>
+            <Source />
+          </div>
+          <div style={{ flex: "3" }}>
             <Presentational />
           </div>
         </div>

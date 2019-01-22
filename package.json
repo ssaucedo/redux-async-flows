@@ -8,13 +8,16 @@
     "@material-ui/core": "3.9.0",
     "react": "16.5.2",
     "react-dom": "16.5.2",
+    "react-highlight-words": "^0.16.0",
     "react-redux": "6.0.0",
     "react-scripts": "2.0.3",
     "redux": "4.0.1",
     "redux-async-flows": "1.0.1-1",
     "redux-thunk": "2.3.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "raw-loader": "^1.0.0"
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",

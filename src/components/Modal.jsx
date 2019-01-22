@@ -7,7 +7,7 @@ import Button from "@material-ui/core/Button";
 
 function getModalStyle() {
   const top = 50;
-  const left = 50;
+  const left = 70;
 
   return {
     top: `${top}%`,
@@ -31,7 +31,7 @@ const SimpleModal = props => {
   const { open, confirmation, classes } = props;
 
   return (
-    <div>
+    <div style={{display: 'flex'}}>
       <Modal
         aria-labelledby="simple-modal-title"
         aria-describedby="simple-modal-description"

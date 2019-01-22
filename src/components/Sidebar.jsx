@@ -2,7 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
-import Button from "@material-ui/core/Button";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 
@@ -12,15 +11,15 @@ const styles = {
   }
 };
 
-const TemporaryDrawer = props => {
+const Sidebar = props => {
   const { open, selectOption, classes } = props;
 
   const sideList = (
     <div className={classes.list}>
       <List>
-        {["Option 1", "Option 2", "Option 3"].map((item, key) => (
-          <ListItem key={key} button onClick={selectOption}>
-            {item}
+        {props.options.map((item, key) => (
+          <ListItem key={key} button onClick={() => selectOption(item)}>
+            {item.name}
           </ListItem>
         ))}
       </List>
@@ -35,16 +34,19 @@ const TemporaryDrawer = props => {
           onClick={() => console.log("close")}
           onKeyDown={() => console.log("close")}
         >
+        <div>{props.title}</div>
           {sideList}
         </div>
       </Drawer>
   );
 };
 
-TemporaryDrawer.propTypes = {
+Sidebar.propTypes = {
   classes: PropTypes.object.isRequired,
   open: PropTypes.bool,
-  selectOption: PropTypes.func
+  selectOption: PropTypes.func,
+  options: PropTypes.array,
+  title: PropTypes.string,
 };
 
-export default withStyles(styles)(TemporaryDrawer);
+export default withStyles(styles)(Sidebar);

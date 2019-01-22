@@ -2,15 +2,22 @@ import React from "react";
 import PropTypes from "prop-types";
 import Button from "@material-ui/core/Button";
 import ConfirmationModal from "./components/Modal.jsx";
-import TemporaryDrawer from "./components/Drawer";
+import Sidebar from "./components/Sidebar";
 import { connect } from "react-redux";
 import { userInteractions } from "./actions";
 import { userFlow } from "./flows";
 
+/**
+ * const codeSandboxURL = "https://codesandbox.io/s/5x2p6j4n6n";
+ <a href={codeSandboxURL}>
+    {"Go to code sandbox"}
+  </a>  
+ */
+
 const UserFlow = props => {
-  console.log(props);
+  console.log(props.sidebarOptions);
   return (
-    <div style={{ padding: "1rem" }}>
+    <div style={{ padding: "3rem" }}>
       <Button variant="contained" color="primary" onClick={props.startFlow}>
         Start Flow
       </Button>
@@ -25,16 +32,16 @@ const UserFlow = props => {
           <Button
             variant="contained"
             color="primary"
-            onClick={props.selectCategory}
+            onClick={() => props.selectCategory('flights')}
           >
-            Option One
+            Flights
           </Button>
           <Button
             variant="contained"
             color="secondary"
-            onClick={props.selectCategory}
+            onClick={() => props.selectCategory('hotels')}
           >
-            Option Two
+            Hotels
           </Button>
         </div>
       )}
@@ -42,8 +49,10 @@ const UserFlow = props => {
         open={props.isModalOpen}
         confirmation={props.confirmation}
       />
-      <TemporaryDrawer
+      <Sidebar
         open={props.isSidebarOpen}
+        options={props.sidebarOptions}
+        title={`Select ${props.selectedCategory}`}
         selectOption={props.selectOption}
       />
     </div>
@@ -61,10 +70,14 @@ UserFlow.propTypes = {
 };
 
 const mapStateToProps = state => {
+  console.log(state.data)
   return {
     showCategories: state.categories.show,
     isModalOpen: state.modal.open,
-    isSidebarOpen: state.sidebar.open
+    isSidebarOpen: state.sidebar.open,
+    isSidebarLoading: state.sidebar.loading,
+    selectedCategory: state.categories.selected,
+    sidebarOptions: state.data[state.categories.selected] || [],
   };
 };
 
