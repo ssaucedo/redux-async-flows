@@ -4,10 +4,6 @@ Enhance `async await` thunks with `take` functionality and allow them to wait fo
 
 Pause function execution waiting for user interactions to compose centralized `user flows`.
 
-## How
-
-[![Async Flows demo app](https://codesandbox.io/static/img/play-codesandbox.svg)](https://14x7xwv034.codesandbox.io/)
-
 ## The existing problem
 
 With a thunk approach to handle side effects user flows ends up being composed by multiple thunks and that separation happens when an user interaction needs to take place to continue user flow execution.
