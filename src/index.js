@@ -1,5 +1,4 @@
 import React from "react";
-import ReactDOM from "react-dom";
 
 import createAsyncFlowsMiddleware from "redux-async-flows";
 import thunk from "redux-thunk";
@@ -8,13 +7,11 @@ import { Provider } from "react-redux";
 import reducer from "./reducer";
 
 import Presentational from "./presentational";
-import Source from './components/Source';
 
-function App() {
+const App = () => {
   const { take, asyncFlowsMiddleware } = createAsyncFlowsMiddleware();
 
   const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-
 
   const store = createStore(
     reducer,
@@ -23,18 +20,10 @@ function App() {
 
   return (
     <Provider store={store}>
-      <div style={{fontFamily: 'sans-serif', textAlign: 'center' }}>
-        <div style={{ display: "flex", height: '100%' }}>
-        <div style={{ flex: "2" }}>
-            <Source />
-          </div>
-          <div style={{ flex: "3" }}>
-            <Presentational />
-          </div>
-        </div>
-      </div>
+      <Presentational />
     </Provider>
   );
 }
-const rootElement = document.getElementById("root");
-ReactDOM.render(<App />, rootElement);
+
+
+export default App;

@@ -7,7 +7,7 @@ import Button from "@material-ui/core/Button";
 
 function getModalStyle() {
   const top = 50;
-  const left = 70;
+  const left = 50;
 
   return {
     top: `${top}%`,
@@ -39,9 +39,11 @@ const SimpleModal = props => {
         onClose={confirmation}
       >
         <div style={getModalStyle()} className={classes.paper}>
+          <div style={{ textAlign: 'center', padding: '2rem' }}>
           <Typography variant="h6" id="modal-title">
             Operation Confirmation
           </Typography>
+          </div>
           <div
             style={{
               display: "flex",

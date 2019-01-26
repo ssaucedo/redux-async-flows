@@ -1,0 +1,72 @@
+import ultramin from "prism-react-renderer/themes/ultramin";
+
+## Redux Async flows
+
+Enhance async await thunks with `take` functionality and allow them to wait for redux actions.
+
+Pause function execution waiting for <br/>
+`user interactions` <br/>
+to compose centralized user flows.
+
+---
+
+import CodeSurfer from "./src/code-surfer-fork"
+import setup from '!raw-loader!./src/async/setup.js';
+
+<CodeSurfer
+  title="Aync Flows setup"
+  theme={ultramin}
+  code={setup}
+  lang="javascript"
+  showNumbers={false}
+/>
+
+---
+
+With `take` feature you can unify multiple thunks into a single async function.
+
+Purchase `User flow` example &nbsp  &nbsp &nbsp &nbsp ➡️
+
+---
+
+import thunks from '!raw-loader!./src/async/thunks.js';
+import thunksSteps from './src/async/thunksSteps';
+import flows from '!raw-loader!./src/async/flows.js';
+import flowsSteps from './src/async/flowsSteps';
+
+
+<div style={{display: 'flex'}}>
+    <div>
+        <CodeSurfer
+            title="Async Flows"
+            steps={flowsSteps}
+            theme={ultramin}
+            code={flows}
+            lang="javascript"
+        />
+    </div>
+    <div>
+        <CodeSurfer
+            title="Thunk"
+            steps={thunksSteps}
+            theme={ultramin}
+            code={thunks}
+            lang="javascript"
+        />
+    </div>
+</div>
+---
+
+import 'babel-polyfill';
+import App from './src/index.js'
+
+<App />
+
+---
+
+## Thanks
+
+[npm 📦](https://www.npmjs.com/package/redux-async-flows)
+
+[redux-async-flows 😺 ](https://github.com/ssaucedo/redux-async-flows)
+

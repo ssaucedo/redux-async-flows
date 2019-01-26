@@ -1,12 +1,12 @@
-import { uiActionTypes, STORE_FLIGHTS, STORE_HOTELS, CATEGORY_SELECTED } from "./actions";
+import { uiActionTypes, STORE_JEANS, STORE_SHIRTS, ITEM_SELECTED } from "./actions";
 
 const initialState = {
   sidebar: { open: false, loading: false },
   modal: { open: false },
-  categories: { show: false, selected: null },
+  items: { show: false, selected: null },
   data: {
-    flights: [],
-    hotels: [],
+    shirts: [],
+    jeans: [],
   },
 };
 
@@ -15,8 +15,8 @@ const update = (state, key, value) => ({ ...state, [key]: { ...state[key], ...va
 export default function context(state = initialState, action) {
   const { type, payload } = action;
   switch (type) {
-    case uiActionTypes.SHOW_CATEGORIES:
-      return update(state, "categories", { show: true });
+    case uiActionTypes.SHOW_ITEMS:
+      return update(state, "items", { show: true });
     case uiActionTypes.OPEN_MODAL:
       return update(state, "modal", { open: true });
     case uiActionTypes.CLOSE_MODAL:
@@ -27,12 +27,12 @@ export default function context(state = initialState, action) {
       return update(state, "sidebar", { open: false });
     case uiActionTypes.SIDEBAR_LOADING:
       return update(state, "sidebar", { loading: payload.loading });
-    case CATEGORY_SELECTED:
-      return update(state, "categories", { selected: payload.category });
-    case STORE_FLIGHTS:
-      return update(state, "data", { flights: payload.items });
-    case STORE_HOTELS:
-      return update(state, "data", { hotels: payload.items });
+    case ITEM_SELECTED:
+      return update(state, "items", { selected: payload.item });
+    case STORE_JEANS:
+      return update(state, "data", { jeans: payload.items });
+    case STORE_SHIRTS:
+      return update(state, "data", { shirts: payload.items });
     case uiActionTypes.RESET_STATE:
       return initialState;
 
