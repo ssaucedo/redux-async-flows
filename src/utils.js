@@ -1,23 +1,23 @@
 
 
 
-const flights = [
-    { id: '1', name: 'LON - NYC'},
-    { id: '2', name: 'BUE - SYD'},
-    { id: '3', name: 'SAO - YTO'}
+const shirts = [
+    { id: '1', name: '#ff2400', label: 'Scarlet'},
+    { id: '2', name: '#9dc183', label: 'Sage'},
+    { id: '3', name: '#c7e446', label: 'Lime'},
     
 ]
 
-const hotels = [
-    { id: '1', name: 'The Ritz Hotel'},
-    { id: '2', name: 'Cotton House Hotel'},
-    { id: '3', name: 'Four Seasons Hotel'},
+const jeans = [
+    { id: '1', name: '#000080', label: 'Navy'},
+    { id: '3', name: '#FFF8DC', label: 'Cornsilk'},
+    { id: '2', name: '#A0522D', label: 'Sienna'},
 ]
 
-export const categoriesService = (category) => {
+export const getAvailableColors = (category) => {
     return new Promise(resolve => {
         setTimeout(() => resolve(
-            category === 'flights' ? flights : hotels
+            category === 'shirts' ? shirts : jeans
         ), 3000);
     })
 }

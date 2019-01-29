@@ -1,26 +1,21 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { withStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
-
-const styles = {
-  list: {
-    width: 250
-  }
-};
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const Sidebar = props => {
-  const { open, selectOption, classes } = props;
+  const { open, selectOption } = props;
 
   const sideList = (
-    <div className={classes.list}>
+    <div style={{width: '90%',}}>
       <List>
         {props.options.map((item, key) => (
-          <ListItem key={key} button onClick={() => selectOption(item)}>
-            {item.name}
-          </ListItem>
+          <div style={{marginLeft: '1rem'}}>
+          {item.label}
+          <ListItem style={{ marginTop: '2px', backgroundColor: item.name, height: '4rem', marginBottom: '1rem' }} key={key} button onClick={() => selectOption(item)} />
+          </div>
         ))}
       </List>
     </div>
@@ -29,13 +24,16 @@ const Sidebar = props => {
   return (
       <Drawer anchor="right" open={open} onClose={() => console.log("close")}>
         <div
+          style={{ width: '300px', height: '100%', display: 'flex', flexDirection: 'column'}}
           tabIndex={0}
           role="button"
           onClick={() => console.log("close")}
           onKeyDown={() => console.log("close")}
         >
-        <div>{props.title}</div>
-          {sideList}
+        <div style={{ textAlign: 'center', padding: '3rem'}}>{props.title}</div>
+          {
+            props.options.length === 0 ? <CircularProgress style={{ alignSelf: 'center'}} /> : sideList
+          }
         </div>
       </Drawer>
   );
@@ -49,4 +47,4 @@ Sidebar.propTypes = {
   title: PropTypes.string,
 };
 
-export default withStyles(styles)(Sidebar);
+export default Sidebar;

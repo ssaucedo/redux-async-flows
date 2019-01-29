@@ -1,50 +1,55 @@
 import React from "react";
 import PropTypes from "prop-types";
 import Button from "@material-ui/core/Button";
-import ConfirmationModal from "./components/Modal.jsx";
-import Sidebar from "./components/Sidebar";
+import ConfirmationModal from "./components/Modal.js";
+import Sidebar from "./components/Sidebar.js";
 import { connect } from "react-redux";
 import { userInteractions } from "./actions";
-import { userFlow } from "./flows";
-
-/**
- * const codeSandboxURL = "https://codesandbox.io/s/5x2p6j4n6n";
- <a href={codeSandboxURL}>
-    {"Go to code sandbox"}
-  </a>  
- */
+import { userFlow } from "./async/flows";
 
 const UserFlow = props => {
-  console.log(props.sidebarOptions);
   return (
-    <div style={{ padding: "3rem" }}>
-      <Button variant="contained" color="primary" onClick={props.startFlow}>
-        Start Flow
-      </Button>
-      {props.showCategories && (
-        <div
-          style={{
-            display: "flex",
-            padding: "1rem",
-            justifyContent: "space-evenly"
-          }}
-        >
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => props.selectCategory('flights')}
-          >
-            Flights
+    <div style={{
+      padding: "3rem", width: '600px',
+      height: '300px',
+    }}>
+      {!props.showItems &&
+        < Button variant="contained" color="primary" onClick={() => {
+          console.log('UserFlow');
+          props.startFlow();
+        }}>
+          Start Flow
+    </Button>
+      }
+      {
+        props.showItems && (
+          <div>
+            {'Select Item'}
+            <div
+              style={{
+                display: "flex",
+                padding: "1rem",
+                justifyContent: "space-evenly"
+              }}
+            >
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => props.selectItem('jeans')}
+              >
+                Jeans
           </Button>
-          <Button
-            variant="contained"
-            color="secondary"
-            onClick={() => props.selectCategory('hotels')}
-          >
-            Hotels
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={() => props.selectItem('shirts')}
+              >
+                Shirts
           </Button>
-        </div>
-      )}
+            </div>
+          </div>
+        )
+      }
       <ConfirmationModal
         open={props.isModalOpen}
         confirmation={props.confirmation}
@@ -52,39 +57,38 @@ const UserFlow = props => {
       <Sidebar
         open={props.isSidebarOpen}
         options={props.sidebarOptions}
-        title={`Select ${props.selectedCategory}`}
-        selectOption={props.selectOption}
+        title={`Select ${props.selectedItem} color!`}
+        selectOption={props.selectColor}
       />
-    </div>
+    </div >
   );
 };
 
 UserFlow.propTypes = {
   startFlow: PropTypes.func.isRequired,
-  selectCategory: PropTypes.func.isRequired,
-  selectOption: PropTypes.func.isRequired,
+  selectItem: PropTypes.func.isRequired,
+  selectColor: PropTypes.func.isRequired,
   confirmation: PropTypes.func.isRequired,
-  showCategories: PropTypes.bool,
+  showItems: PropTypes.bool,
   isModalOpen: PropTypes.bool,
   isSidebarOpen: PropTypes.bool
 };
 
 const mapStateToProps = state => {
-  console.log(state.data)
   return {
-    showCategories: state.categories.show,
+    showItems: state.items.show,
     isModalOpen: state.modal.open,
     isSidebarOpen: state.sidebar.open,
     isSidebarLoading: state.sidebar.loading,
-    selectedCategory: state.categories.selected,
-    sidebarOptions: state.data[state.categories.selected] || [],
+    selectedItem: state.items.selected,
+    sidebarOptions: state.data[state.items.selected] || [],
   };
 };
 
 const mapDispatchToProps = {
   startFlow: userFlow,
-  selectCategory: userInteractions.selectCategory,
-  selectOption: userInteractions.selectOption,
+  selectItem: userInteractions.selectItem,
+  selectColor: userInteractions.selectColor,
   confirmation: userInteractions.confirmation
 };
 

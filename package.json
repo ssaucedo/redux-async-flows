@@ -6,19 +6,24 @@
   "main": "src/index.js",
   "dependencies": {
     "@material-ui/core": "3.9.0",
-    "react": "16.5.2",
-    "react-dom": "16.5.2",
+    "babel-polyfill": "^6.26.0",
+    "code-surfer": "^0.5.5",
+    "mdx-deck-code-surfer": "^0.5.5",
+    "react": "16.3.1",
+    "react-dom": "16.3.1",
     "react-highlight-words": "^0.16.0",
-    "react-redux": "6.0.0",
+    "react-redux": "5.0.7",
     "react-scripts": "2.0.3",
-    "redux": "4.0.1",
+    "redux": "3.5.2",
     "redux-async-flows": "1.0.1-1",
     "redux-thunk": "2.3.0"
   },
   "devDependencies": {
+    "mdx-deck": "^1.8.2",
     "raw-loader": "^1.0.0"
   },
   "scripts": {
+    "pres": "mdx-deck index.mdx",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
