@@ -11,23 +11,19 @@
     "mdx-deck-code-surfer": "^0.5.5",
     "react": "16.3.1",
     "react-dom": "16.3.1",
-    "react-highlight-words": "^0.16.0",
     "react-redux": "5.0.7",
-    "react-scripts": "2.0.3",
     "redux": "3.5.2",
     "redux-async-flows": "1.0.1-1",
     "redux-thunk": "2.3.0"
   },
   "devDependencies": {
     "mdx-deck": "^1.8.2",
-    "raw-loader": "^1.0.0"
+    "raw-loader": "^1.0.0",
+    "react-scripts": "^2.1.3"
   },
   "scripts": {
-    "pres": "mdx-deck index.mdx",
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "start": "mdx-deck index.mdx",
+    "build": "mdx-deck build --out-dir ./public index.mdx"
   },
   "browserslist": [
     ">0.2%",
