@@ -4,6 +4,15 @@ Enhance `async await` thunks with `take` functionality and allow them to wait fo
 
 Pause function execution waiting for user interactions to compose centralized `user flows`.
 
+<div align="center">
+    <a href="https://async-flows.now.sh/">
+        <img alt="sample" style="width: 95%; border:thin solid black; color: black" src="https://raw.githubusercontent.com/ssaucedo/redux-async-flows/demo/public/async-flows.gif" />
+    </a>
+    <div>
+        <a href="https://async-flows.now.sh/">(demo)</a>
+    </div>
+</div>
+
 ## The existing problem
 
 With a thunk approach to handle side effects user flows ends up being composed by multiple thunks and that separation happens when an user interaction needs to take place to continue user flow execution.
@@ -41,24 +50,28 @@ Instead of having a `user flow` definitions spread on different files and layers
 
 ``` .js
 
-const userFlow = () => async function(dispatch, getState, take) {
-    dispatch({ type: 'USER_STARTS_FLOW'});
-    const res = await asyncService();         // Service call
-    dispatch({ type: 'DISPLAY_RESULT'});      // UI update
+export const userFlow = () => async (dispatch, getState, take) => {
+  dispatch(ui.showItems());                                   // UI
+  const { payload: { item } } =
+      await take(user.SELECT_ITEM);                           // User interaction  !!
+  dispatch(actions.itemSelected(item));
+  dispatch(ui.sidebarLoading(true));                          // UI
+  dispatch(ui.openSidebar());                                 // UI
+  const availableColors = await getAvailableColors(item);     // Service request
+  if(item === 'shirts') {
+    dispatch(actions.storeShirts(availableColors));           // Update state with retrieved data
+  } else {
+    dispatch(actions.storeJeans(availableColors));            // Update store
+  }
+  dispatch(ui.sidebarLoading(false));                         // UI
+  await take(user.SELECT_COLOR);                              // User interaction !!
+  dispatch(ui.closeSidebar());                                // UI
+  dispatch(ui.openModal());                                   // UI
+  await take(user.CONFIRMATION);                              // User interaction !!
+  dispatch(ui.closeModal());                                  // UI
+  dispatch(ui.resetState());                                  // UI
 
-    const confirmation = await take('USER_CONFIRMATION'); // user interaction
-
-    // Handle interaction
-    if(confirmation.accept) {
-        // do something
-        return;
-    }
-
-    if(confirmation.cancel) {
-        // cancel and do something
-        return;
-    }
-}
+};
 
 ```
 
